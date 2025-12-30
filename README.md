@@ -1,40 +1,61 @@
-# Klaviyo-Challenge
+// ===== FILE: README.md =====
+# Klaviyo Hyper-Personalization Engine
 
-Project Title
-(Give your project a short, descriptive name.)
+AI-powered email personalization with automated segmentation and continuous learning.
 
-Problem Statement
-(What problem are you solving or what opportunity are you addressing? Why is it interesting or
-important?)
+## Features
 
-Solution Overview
-(Describe your solution at a high level. Include what it does, how it works, and any key
-features.)
+- 🎯 **Auto-Discovered Segments**: Automatically groups customers by behavior patterns
+- 🧠 **Individual Preference Learning**: Tracks what works for each customer
+- 📧 **Personalized Content Generation**: Creates custom emails per recipient
+- 🧪 **Automated A/B Testing**: Continuously learns and improves
+- 💡 **Smart Recommendations**: Suggests optimal campaigns
 
-Architecture / Design Decisions
-(Explain your design choices, such as: backend/frontend structure, data flow, use of APIs, MCP
-server integration, or AI features. Note any trade-offs or assumptions you made.)
+## Setup
 
-Klaviyo API / SDK / MCP Usage
-(List which Klaviyo APIs, SDKs, or MCP server endpoints you used and briefly explain how you
-integrated them.)
+1. Clone and install:
+\`\`\`bash
+npm install
+\`\`\`
 
-Getting Started / Setup Instructions
-(Include clear steps for running your project locally. Example: cloning repo, installing
-dependencies, environment variables, running commands.)
-# Example:
-git clone <repo-url>
-cd <project-folder>
-pip install -r requirements.txt
-# Set up environment variables
-python main.py
+2. Configure environment:
+\`\`\`bash
+cp .env.example .env.local
+# Add your KLAVIYO_PRIVATE_API_KEY
+\`\`\`
 
-Demo
-(Explain how to use your application or run demos. Include screenshots, example commands,
-or links to videos if helpful.)
+3. Run development server:
+\`\`\`bash
+npm run dev
+\`\`\`
 
-Testing / Error Handling (Optional but recommended)
-(Explain how you tested your project and any error handling implemented.)
+4. Open http://localhost:3000
 
-Future Improvements / Stretch Goals (Optional)
-(If you had more time, what features or improvements would you add?)
+## Tech Stack
+
+- Next.js 14 (App Router)
+- TypeScript
+- Tailwind CSS
+- Klaviyo API SDK
+
+## Project Structure
+
+- `/app` - Next.js pages and API routes
+- `/lib/klaviyo` - Klaviyo integration and algorithms
+- `/components` - React components
+- `/types` - TypeScript definitions
+
+## Algorithm Overview
+
+The segmentation uses k-means clustering on behavioral features:
+- Open rate
+- Click rate
+- Purchase frequency
+- Discount sensitivity
+- Average cart value
+
+Each segment is then characterized and personalization rules are learned from historical performance.
+
+## License
+
+MIT
