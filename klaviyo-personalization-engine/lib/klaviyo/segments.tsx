@@ -29,7 +29,7 @@ export function discoverSegments(customers: CustomerProfile[]): CustomerSegment[
   }));
 
   // Simple k-means clustering (you can use a library like ml-kmeans)
-  const k = 5; // Number of segments
+  const k = 3; // Number of segments
   const segments = kMeansClustering(features, k);
 
   // Label and characterize each segment

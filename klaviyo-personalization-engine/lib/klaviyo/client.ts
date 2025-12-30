@@ -1,11 +1,21 @@
 import { ApiKeySession, ProfilesApi, MetricsApi, CampaignsApi } from 'klaviyo-api';
 
-const session = new ApiKeySession(
-  process.env.KLAVIYO_PRIVATE_API_KEY!
-);
+// Get API key from environment variables
+const apiKey = process.env.KLAVIYO_PRIVATE_API_KEY;
 
-export const profilesApi = new ProfilesApi(session);
-export const metricsApi = new MetricsApi(session);
-export const campaignsApi = new CampaignsApi(session);
+if (!apiKey) {
+  console.error('⚠️  KLAVIYO_PRIVATE_API_KEY is not set in environment variables!');
+  console.error('Please create a .env.local file in the root directory with:');
+  console.error('KLAVIYO_PRIVATE_API_KEY=your_api_key_here');
+}
 
-export default { profilesApi, metricsApi, campaignsApi };
+// Create session only if API key exists
+const session = apiKey ? new ApiKeySession(apiKey) : null;
+
+// Export APIs - they will be null if API key is missing
+export const profilesApi = session ? new ProfilesApi(session) : null;
+export const metricsApi = session ? new MetricsApi(session) : null;
+export const campaignsApi = session ? new CampaignsApi(session) : null;
+
+const klaviyoClient = { profilesApi, metricsApi, campaignsApi };
+export default klaviyoClient;

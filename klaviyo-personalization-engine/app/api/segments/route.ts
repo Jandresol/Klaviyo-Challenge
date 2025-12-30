@@ -23,8 +23,24 @@ interface KlaviyoProfilesResponse {
 
 export async function GET() {
   try {
+    // Check if API key is configured
+    if (!profilesApi) {
+      return NextResponse.json(
+        { 
+          segments: [],
+          error: 'Klaviyo API key is not configured. Please set KLAVIYO_PRIVATE_API_KEY in your .env.local file.'
+        },
+        { status: 500 }
+      );
+    }
+
     // Fetch profiles from Klaviyo
     const response = await profilesApi.getProfiles() as KlaviyoProfilesResponse;
+    
+    // Check if response has data
+    if (!response?.body?.data || !Array.isArray(response.body.data)) {
+      return NextResponse.json({ segments: [] });
+    }
     
     // Transform to CustomerProfile format
     const customers: CustomerProfile[] = response.body.data.map((profile: KlaviyoProfile) => ({
@@ -47,14 +63,19 @@ export async function GET() {
       }
     }));
 
+    // If no customers, return empty segments
+    if (customers.length === 0) {
+      return NextResponse.json({ segments: [] });
+    }
+
     // Discover segments
     const segments = discoverSegments(customers);
 
-    return NextResponse.json({ segments });
+    return NextResponse.json({ segments: segments || [] });
   } catch (error) {
     console.error('Error fetching segments:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch segments' },
+      { segments: [], error: 'Failed to fetch segments' },
       { status: 500 }
     );
   }
